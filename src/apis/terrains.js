@@ -36,3 +36,15 @@ export async function getTerrainByNumero(numero) {
     );
   }
 }
+
+export async function getTerrainById(id) {
+  try {
+    const { data } = await terrainsInstance.get(`terrains/${id}`);
+
+    return data;
+  } catch (e) {
+    throw new Error(
+      "Une erreur est survenue lors de la réucupération d'un terrain"
+    );
+  }
+}
