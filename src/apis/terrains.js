@@ -48,3 +48,25 @@ export async function getTerrainById(id) {
     );
   }
 }
+
+export async function createTerrain(terrain) {
+  try {
+    const { data } = await terrainsInstance.post("/terrains", terrain);
+
+    return data;
+  } catch (e) {
+    throw new Error("Une erreur est survenue lors de la création d'un terrain");
+  }
+}
+
+export async function deleteTerrain(id) {
+  try {
+    const { data } = await terrainsInstance.delete(`/terrains/${id}`);
+
+    return data;
+  } catch (e) {
+    throw new Error(
+      "Une erreur est survenue lors de la suppresion d'un terrain"
+    );
+  }
+}

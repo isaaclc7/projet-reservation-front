@@ -13,10 +13,10 @@ utilisateursInstance.interceptors.request.use(
   }
 );
 
-export async function getUtilisateurByMail(mail) {
+export async function getUtilisateurByTelephone(telephone) {
   try {
     const { data } = await utilisateursInstance.get(
-      `/utilisateurs?mail=${mail}`
+      `/utilisateurs?telephone=${telephone}`
     );
 
     return data;
@@ -37,7 +37,7 @@ export async function createUtilisateur(utilisateur) {
     return data;
   } catch (e) {
     return new Error(
-      "Une erreur est survenue lors de la récupération d'un utilisateur"
+      "Une erreur est survenue lors de la création d'un utilisateur"
     );
   }
 }
