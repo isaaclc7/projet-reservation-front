@@ -36,7 +36,7 @@ import {
 } from "../apis/utilisateurs";
 import { createReservation } from "../apis/reservation";
 import { deleteDisponibiliteById } from "../apis/disponiblites";
-import { ACCUEIL, RESERVATION } from "../router/names";
+import { ACCUEIL } from "../router/names";
 
 export default {
   data() {
@@ -101,8 +101,7 @@ export default {
       console.log("RESERVATION FAITE");
       console.log(JSON.stringify(reservationEnregistree));
       this.$router.push({
-        name: RESERVATION,
-        params: { id: reservationEnregistree.id },
+         path: `/reservation/${reservationEnregistree.id}`
       });
       deleteDisponibiliteById(horaire.id);
     },

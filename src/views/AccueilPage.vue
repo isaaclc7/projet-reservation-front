@@ -13,12 +13,15 @@
         </router-link>
       </li>
     </ul>
-    <div v-if="isOpen" class="">
-      Ajouter un terrain
-      <form action="">
-        <input v-model="terrain.numero" type="text" placeholder="N° terrain" />
-        <button @click="creerTerrain">Enregistrer</button>
+    <div v-if="isOpen" class="div-form-ajouter-terrain">
+      <p>Ajouter un terrain</p>
+      <form class="form-ajouter-terrain" action="">
+        <input class="form-nombre-terrain" v-model="terrain.numero" type="text" placeholder="N° terrain" />
+        <button class="form-enregistrer-terrain" @click="creerTerrain">Enregistrer</button>
       </form>
+      <button v-if="isOpen" class="form-bouton-fermer" @click="closeForm">
+          <img src="@/assets/fermer.svg" alt="Fermer le formulaire" />
+      </button>
     </div>
     <button class="bouton-ajout" @click="openForm">
       <img src="@/assets/ajout-terrain.svg" alt="Ajouter un terrain" />
@@ -65,6 +68,9 @@ export default {
       } else {
         this.isOpen = true;
       }
+    },
+    closeForm() {
+      this.isOpen = false
     },
     async creerTerrain() {
       // const terrainAlreadyExists = await getTerrainByNumero(
@@ -122,4 +128,57 @@ export default {
   top: 90%;
   left: 84%;
 }
+
+.div-form-ajouter-terrain {
+  border: 3px solid #adff00;
+  background-color: #6994c5;
+  width: 300px;
+  height: 160px;
+  position: fixed;
+  top: 40%;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.form-ajouter-terrain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form-nombre-terrain {
+  height: 35px;
+  width: 80%;
+  border: 2px solid #adff00;
+  border-radius: 5px;
+  background-color: #0d2f4e;
+  color: #adff00;
+  font-weight: bold;
+  text-align: center;
+  text-emphasis-color: #adff00;
+}
+.form-enregistrer-terrain {
+  margin-top: 20px;
+  width: 40%;
+  height: 35px;
+  border: 2px solid #adff00;
+  padding: 5px 0 5px 0;
+  color: #adff00;
+  font-weight: bold;
+  background-color: #0d2f4e;
+  border-radius: 5px;
+}
+
+.form-bouton-fermer {
+  width: 45px;
+  height: 45px;
+  padding: 0;
+  border: none;
+  background: none;
+  position:absolute; right:0;
+  top:0;
+  margin-top:0px;
+  margin-right:0px;
+}
+
 </style>
