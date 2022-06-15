@@ -27,3 +27,15 @@ export async function createReservation(reservation) {
     );
   }
 }
+
+export async function getReservationById(id) {
+  try {
+    const { data } = await reservationInstance.get(`/reservation/${id}`);
+
+    return data;
+  } catch (e) {
+    throw new Error(
+      "Une erreur est survenue lors de la récupération d'une réservation"
+    );
+  }
+}

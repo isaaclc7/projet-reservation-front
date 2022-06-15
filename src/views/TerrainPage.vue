@@ -1,5 +1,11 @@
 <template>
   <div>
+    <button @click="openForm">Supprimer le terrain</button>
+    <div v-if="isOpen">
+      Voulez vous supprimer le terrain ?
+      <button @click="supprimerTerrain">Oui</button>
+      <button @click="openForm">Non</button>
+    </div>
     <h1>Court n°{{ terrain.numero }}</h1>
     <img src="@/assets/court-de-tennis.jpg" alt="Image du court de tennis" />
     <form class="formulaire" action="">
@@ -16,13 +22,13 @@
         type="text"
         placeholder="N° Téléphone"
       />
-      <button @click="reservation">TEST</button>
+      <button @click="reservation">Réserver</button>
     </form>
   </div>
 </template>
 
 <script>
-import { getTerrainById } from "../apis/terrains";
+import { getTerrainById, deleteTerrain } from "../apis/terrains";
 import { getDisponiblitesByTerrain } from "../apis/disponiblites";
 import {
   getUtilisateurByTelephone,
@@ -30,6 +36,7 @@ import {
 } from "../apis/utilisateurs";
 import { createReservation } from "../apis/reservation";
 import { deleteDisponibiliteById } from "../apis/disponiblites";
+import { ACCUEIL, RESERVATION } from "../router/names";
 
 export default {
   data() {
@@ -47,6 +54,7 @@ export default {
         terrain: {},
         utilisateur: {},
       },
+      isOpen: false,
     };
   },
   methods: {
@@ -87,8 +95,28 @@ export default {
       this.reservationCreer.terrain = this.terrain;
       this.reservationCreer.utilisateur =
         await this.enregistrementUtilisateur();
-      await createReservation(this.reservationCreer);
+      const reservationEnregistree = await createReservation(
+        this.reservationCreer
+      );
+      console.log("RESERVATION FAITE");
+      console.log(JSON.stringify(reservationEnregistree));
+      this.$router.push({
+        name: RESERVATION,
+        params: { id: reservationEnregistree.id },
+      });
       deleteDisponibiliteById(horaire.id);
+    },
+    openForm() {
+      if (this.isOpen == true) {
+        this.isOpen = false;
+      } else {
+        this.isOpen = true;
+      }
+    },
+    async supprimerTerrain() {
+      console.log("SUPPRIMER");
+      await deleteTerrain(this.$route.params.id);
+      this.$router.push({ name: ACCUEIL });
     },
   },
   async mounted() {

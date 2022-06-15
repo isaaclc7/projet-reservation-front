@@ -39,7 +39,7 @@ export async function getTerrainByNumero(numero) {
 
 export async function getTerrainById(id) {
   try {
-    const { data } = await terrainsInstance.get(`terrains/${id}`);
+    const { data } = await terrainsInstance.get(`/terrains/${id}`);
 
     return data;
   } catch (e) {
