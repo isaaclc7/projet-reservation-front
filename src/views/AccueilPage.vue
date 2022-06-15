@@ -1,15 +1,15 @@
 <template>
-  <div>
+  <div class="container">
     <div class="header">
-      <h1>Tennis Club de Lille</h1>
+      <h1 class="header__titre">Tennis Club de Lille</h1>
     </div>
-    <ul>
+    <ul class="liste__terrains">
       <li v-for="terrain in terrains" :key="terrain.id">
         <router-link
           class="router-link"
           :to="{ name: terrainRoute, params: { id: terrain.id } }"
         >
-          <carte-terrain :nom="terrain.numero" />
+          <carte-terrain :numero="terrain.numero" />
         </router-link>
       </li>
     </ul>
@@ -20,7 +20,9 @@
         <button @click="creerTerrain">Enregistrer</button>
       </form>
     </div>
-    <button @click="openForm">Ajouter terrain</button>
+    <button class="bouton-ajout" @click="openForm">
+      <img src="@/assets/ajout-terrain.svg" alt="Ajouter un terrain" />
+    </button>
   </div>
 </template>
 
@@ -75,7 +77,8 @@ export default {
       // } else {
       //   console.log("PAS CREE");
       // }
-      createTerrain(this.terrain);
+      await createTerrain(this.terrain);
+      this.$router.go();
     },
   },
   async mounted() {
@@ -83,3 +86,40 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header__titre {
+  margin: 0;
+  color: white;
+}
+
+.liste__terrains {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  list-style: none;
+  align-content: center;
+  padding: 0;
+}
+
+.router-link {
+  text-decoration: none;
+}
+
+.bouton-ajout {
+  background-color: #adff00;
+  width: 55px;
+  border-radius: 50%;
+  height: 55px;
+  border-color: #adff00;
+  position: fixed;
+  top: 90%;
+  left: 84%;
+}
+</style>
