@@ -1,8 +1,11 @@
 <template>
   <div class="container">
-    <div class="header">
-      <h1 class="header__titre">Tennis Club de Lille</h1>
-    </div>
+    <c-header />
+    <div class="trait-separation"></div>
+    <p class="en-tete">
+      Louez votre terrain où vous voulez quand vous voulez !
+    </p>
+    <div class="trait-separation"></div>
     <ul class="liste__terrains">
       <li v-for="terrain in terrains" :key="terrain.id">
         <router-link
@@ -16,20 +19,30 @@
     <div v-if="isOpen" class="div-form-ajouter-terrain">
       <p>Ajouter un terrain</p>
       <form class="form-ajouter-terrain" action="">
-        <input class="form-nombre-terrain" v-model="terrain.numero" type="text" placeholder="N° terrain" />
-        <button class="form-enregistrer-terrain" @click="creerTerrain">Enregistrer</button>
+        <input
+          class="form-nombre-terrain"
+          v-model="terrain.numero"
+          type="text"
+          placeholder="N° terrain"
+        />
+        <button class="form-enregistrer-terrain" @click="creerTerrain">
+          Enregistrer
+        </button>
       </form>
       <button v-if="isOpen" class="form-bouton-fermer" @click="closeForm">
-          <img src="@/assets/fermer.svg" alt="Fermer le formulaire" />
+        <img src="@/assets/fermer.svg" alt="Fermer le formulaire" />
       </button>
     </div>
     <button class="bouton-ajout" @click="openForm">
       <img src="@/assets/ajout-terrain.svg" alt="Ajouter un terrain" />
     </button>
+    <c-footer />
   </div>
 </template>
 
 <script>
+import CHeader from "../components/CHeader.vue";
+import CFooter from "../components/CFooter.vue";
 import { TERRAIN } from "../router/names";
 import CarteTerrain from "../components/CarteTerrain.vue";
 import {
@@ -41,6 +54,8 @@ import {
 export default {
   components: {
     CarteTerrain,
+    CHeader,
+    CFooter,
   },
   data() {
     return {
@@ -70,7 +85,7 @@ export default {
       }
     },
     closeForm() {
-      this.isOpen = false
+      this.isOpen = false;
     },
     async creerTerrain() {
       // const terrainAlreadyExists = await getTerrainByNumero(
@@ -98,11 +113,18 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 150px;
 }
 
-.header__titre {
-  margin: 0;
-  color: white;
+.trait-separation {
+  border-top: 1px solid #adff00;
+  width: 174px;
+}
+
+.en-tete {
+  color: #7d8a9e;
+  font-size: 26px;
+  margin: 15px 0 15px 0;
 }
 
 .liste__terrains {
@@ -112,6 +134,7 @@ export default {
   list-style: none;
   align-content: center;
   padding: 0;
+  margin-top: 30px;
 }
 
 .router-link {
@@ -125,7 +148,7 @@ export default {
   height: 55px;
   border-color: #adff00;
   position: fixed;
-  top: 90%;
+  top: 85%;
   left: 84%;
 }
 
@@ -175,10 +198,10 @@ export default {
   padding: 0;
   border: none;
   background: none;
-  position:absolute; right:0;
-  top:0;
-  margin-top:0px;
-  margin-right:0px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-top: 0px;
+  margin-right: 0px;
 }
-
 </style>

@@ -1,7 +1,15 @@
 <template>
-  <div>
-    <div class="terrain-resevable">
-      <img class="carte-terrain-image" src="@/assets/court-de-tennis.jpg" alt="Image du court de tennis" />
+  <div class="container">
+    <c-header />
+    <div class="trait-separation"></div>
+    <p class="en-tete">Réserver votre terrain</p>
+    <div class="trait-separation"></div>
+    <div class="terrain-reservable">
+      <img
+        class="carte-terrain-image"
+        src="@/assets/court-de-tennis.jpg"
+        alt="Image du court de tennis"
+      />
       <div class="terrain-info">
         <h1 class="terain-numero">Court n°{{ terrain.numero }}</h1>
         <button class="boutton-supprimer" @click="openForm">
@@ -16,26 +24,45 @@
     </div>
     <div class="form-terrain">
       <form class="formulaire" action="">
-      <select class="form-select" v-model="horaire">
-        <option disabled value="">Choisissez</option>
-        <option v-for="disponibilite in disponibilites" :key="disponibilite.id">
-          {{ disponibilite.dateDebut | date }}
-        </option>
-      </select>
-      <input class="form-input" v-model="utilisateur.nom" type="text" placeholder="Nom" />
-      <input class="form-input" v-model="utilisateur.prenom" type="text" placeholder="Prenom" />
-      <input class="form-input"
-        v-model="utilisateur.telephone"
-        type="text"
-        placeholder="N° Téléphone"
-      />
-      <button class="form-reserver-terrain" @click="reservation">Réserver</button>
-    </form>
+        <select class="form-select" v-model="horaire">
+          <option disabled value="">Choisissez</option>
+          <option
+            v-for="disponibilite in disponibilites"
+            :key="disponibilite.id"
+          >
+            {{ disponibilite.dateDebut | date }}
+          </option>
+        </select>
+        <input
+          class="form-input"
+          v-model="utilisateur.nom"
+          type="text"
+          placeholder="Nom"
+        />
+        <input
+          class="form-input"
+          v-model="utilisateur.prenom"
+          type="text"
+          placeholder="Prenom"
+        />
+        <input
+          class="form-input"
+          v-model="utilisateur.telephone"
+          type="text"
+          placeholder="N° Téléphone"
+        />
+        <button class="form-reserver-terrain" @click="reservation">
+          Réserver
+        </button>
+      </form>
     </div>
+    <c-footer />
   </div>
 </template>
 
 <script>
+import CHeader from "../components/CHeader.vue";
+import CFooter from "../components/CFooter.vue";
 import { getTerrainById, deleteTerrain } from "../apis/terrains";
 import { getDisponiblitesByTerrain } from "../apis/disponiblites";
 import {
@@ -47,6 +74,10 @@ import { deleteDisponibiliteById } from "../apis/disponiblites";
 import { ACCUEIL } from "../router/names";
 
 export default {
+  components: {
+    CHeader,
+    CFooter,
+  },
   data() {
     return {
       terrain: {},
@@ -109,7 +140,7 @@ export default {
       console.log("RESERVATION FAITE");
       console.log(JSON.stringify(reservationEnregistree));
       this.$router.push({
-         path: `/reservation/${reservationEnregistree.id}`
+        path: `/reservation/${reservationEnregistree.id}`,
       });
       deleteDisponibiliteById(horaire.id);
     },
@@ -144,6 +175,23 @@ export default {
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.trait-separation {
+  border-top: 1px solid #adff00;
+  width: 174px;
+}
+
+.en-tete {
+  color: #7d8a9e;
+  font-size: 26px;
+  margin: 15px 0 15px 0;
+}
+
 .form-terrain {
   width: 300px;
   height: 300px;
@@ -168,11 +216,11 @@ export default {
   color: #adff00;
   font-weight: bold;
   text-align: center;
-  text-emphasis-color: #adff00; 
+  text-emphasis-color: #adff00;
 }
 
 .form-select {
-  height:42px;
+  height: 42px;
   width: 82%;
   border: 2px solid #adff00;
   border-radius: 5px;
@@ -180,7 +228,7 @@ export default {
   color: #adff00;
   font-weight: bold;
   text-align: center;
-  text-emphasis-color: #adff00; 
+  text-emphasis-color: #adff00;
   margin-top: 30px;
 }
 
@@ -196,12 +244,13 @@ export default {
   border-radius: 5px;
 }
 
-.terrain-resevable {
-   width: 300px;
-   height: 340px;
-   display: flex;
-   flex-direction: column;
-   margin: 0 auto;
+.terrain-reservable {
+  width: 300px;
+  height: 340px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  margin-top: 30px;
 }
 
 .carte-terrain-image {
@@ -233,7 +282,7 @@ export default {
 
 .supprimer-confirmation {
   border: 3px solid #adff00;
-  background-color:#0d2f4e;
+  background-color: #0d2f4e;
   width: 300px;
   height: 160px;
   position: fixed;
@@ -258,17 +307,15 @@ export default {
   font-weight: bold;
   background-color: #6994c5;
   border-radius: 5px;
-  
 }
 
 @media screen and (min-width: 640px) {
-    .terrain-resevable {
-      width: 500px;
-      height: 340px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+  .terrain-resevable {
+    width: 500px;
+    height: 340px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 }
-
 </style>
