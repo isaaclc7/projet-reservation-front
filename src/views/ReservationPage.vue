@@ -62,9 +62,9 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -109,5 +109,8 @@ export default {
   border-radius: 5px;
   border: 2px solid #adff00;
   background-color: #0d2f4e;
+}
+
+@media screen and (min-width: 959px) {
 }
 </style>

@@ -38,18 +38,21 @@
           v-model="utilisateur.nom"
           type="text"
           placeholder="Nom"
+          required
         />
         <input
           class="form-input"
           v-model="utilisateur.prenom"
           type="text"
           placeholder="Prenom"
+          required
         />
         <input
           class="form-input"
           v-model="utilisateur.telephone"
-          type="text"
+          type="tel"
           placeholder="N° Téléphone"
+          required
         />
         <button class="form-reserver-terrain" @click="reservation">
           Réserver
@@ -113,18 +116,10 @@ export default {
       const utilisateurAlreadyExists = await getUtilisateurByTelephone(
         this.utilisateur.telephone
       );
-      console.log(utilisateurAlreadyExists);
       if (utilisateurAlreadyExists === "") {
         const utilisateurCreated = await createUtilisateur(this.utilisateur);
-        console.log(
-          "CREATION UTILISATEUR: " + JSON.stringify(this.utilisateur)
-        );
         return utilisateurCreated;
       } else {
-        console.log(
-          "RECUPERATION UTILISATEUR: " +
-            JSON.stringify(utilisateurAlreadyExists)
-        );
         return utilisateurAlreadyExists;
       }
     },
@@ -307,6 +302,10 @@ export default {
   font-weight: bold;
   background-color: #6994c5;
   border-radius: 5px;
+}
+
+input:invalid {
+  border: 2px solid red;
 }
 
 @media screen and (min-width: 640px) {

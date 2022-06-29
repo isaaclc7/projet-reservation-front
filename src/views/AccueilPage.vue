@@ -45,10 +45,11 @@ import CHeader from "../components/CHeader.vue";
 import CFooter from "../components/CFooter.vue";
 import { TERRAIN } from "../router/names";
 import CarteTerrain from "../components/CarteTerrain.vue";
+
 import {
   getAllTerrains,
   createTerrain,
-  //getTerrainByNumero,
+  getTerrainByNumero,
 } from "../apis/terrains";
 
 export default {
@@ -72,7 +73,6 @@ export default {
     async getTerrains() {
       try {
         this.terrains = await getAllTerrains();
-        console.log(this.terrains);
       } catch (e) {
         this.error = e;
       }
@@ -88,18 +88,22 @@ export default {
       this.isOpen = false;
     },
     async creerTerrain() {
-      // const terrainAlreadyExists = await getTerrainByNumero(
-      //   this.terrain.numero
-      // );
-      // console.log(JSON.stringify(terrainAlreadyExists));
-      // if (terrainAlreadyExists === "") {
-      //   createTerrain(this.terrain);
-      //   this.$router.go();
-      // } else {
-      //   console.log("PAS CREE");
-      // }
-      await createTerrain(this.terrain);
-      this.$router.go();
+      const terrainAlreadyExists = await getTerrainByNumero(
+        this.terrain.numero
+      );
+      console.log(JSON.stringify(terrainAlreadyExists));
+      if (this.isEmpty(terrainAlreadyExists)) {
+        await createTerrain(this.terrain);
+        console.log("CREE");
+        // this.$router.go();
+      } else {
+        console.log("PAS CREE");
+      }
+      // await createTerrain(this.terrain);
+      // this.$router.go();
+    },
+    isEmpty(someObject) {
+      return !Object.keys(someObject).length;
     },
   },
   async mounted() {
@@ -110,10 +114,11 @@ export default {
 
 <style scoped>
 .container {
+  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 150px;
+  padding-bottom: 60px;
 }
 
 .trait-separation {

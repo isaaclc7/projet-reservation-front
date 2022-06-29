@@ -13,6 +13,18 @@ reservationInstance.interceptors.request.use(
   }
 );
 
+export async function getReservationById(id) {
+  try {
+    const { data } = await reservationInstance.get(`/reservation/${id}`);
+
+    return data;
+  } catch (e) {
+    throw new Error(
+      "Une erreur est survenue lors de la récupération d'une réservation"
+    );
+  }
+}
+
 export async function createReservation(reservation) {
   try {
     const { data } = await reservationInstance.post(
@@ -24,18 +36,6 @@ export async function createReservation(reservation) {
   } catch (e) {
     return new Error(
       "Une erreur est survenue lors de la création d'une réservation"
-    );
-  }
-}
-
-export async function getReservationById(id) {
-  try {
-    const { data } = await reservationInstance.get(`/reservation/${id}`);
-
-    return data;
-  } catch (e) {
-    throw new Error(
-      "Une erreur est survenue lors de la récupération d'une réservation"
     );
   }
 }
