@@ -46,11 +46,7 @@ import CFooter from "../components/CFooter.vue";
 import { TERRAIN } from "../router/names";
 import CarteTerrain from "../components/CarteTerrain.vue";
 
-import {
-  getAllTerrains,
-  createTerrain,
-  getTerrainByNumero,
-} from "../apis/terrains";
+import { getAllTerrains, createTerrain } from "../apis/terrains";
 
 export default {
   components: {
@@ -88,19 +84,19 @@ export default {
       this.isOpen = false;
     },
     async creerTerrain() {
-      const terrainAlreadyExists = await getTerrainByNumero(
-        this.terrain.numero
-      );
-      console.log(JSON.stringify(terrainAlreadyExists));
-      if (this.isEmpty(terrainAlreadyExists)) {
-        await createTerrain(this.terrain);
-        console.log("CREE");
-        // this.$router.go();
-      } else {
-        console.log("PAS CREE");
-      }
-      // await createTerrain(this.terrain);
-      // this.$router.go();
+      // const terrainAlreadyExists = await getTerrainByNumero(
+      //   this.terrain.numero
+      // );
+      // console.log(JSON.stringify(terrainAlreadyExists));
+      // if (this.isEmpty(terrainAlreadyExists)) {
+      //   await createTerrain(this.terrain);
+      //   console.log("CREE");
+      //   // this.$router.go();
+      // } else {
+      //   console.log("PAS CREE");
+      // }
+      await createTerrain(this.terrain);
+      this.$router.go();
     },
     isEmpty(someObject) {
       return !Object.keys(someObject).length;
