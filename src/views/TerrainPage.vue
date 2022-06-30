@@ -50,10 +50,18 @@
         <input
           class="form-input"
           v-model="utilisateur.telephone"
-          type="tel"
+          type="text"
+          @keypress="onlyNumber"
+          maxlength="10"
           placeholder="N° Téléphone"
           required
         />
+        <p v-if="erreurs.length">
+          <b>Veuillez corriger le(s) erreur(s) suivante(s) :</b>
+          <ul>
+            <li v-for="erreur in erreurs" :key="erreur.id">{{ erreur }}</li>
+          </ul>
+        </p>
         <button class="form-reserver-terrain" @click="reservation">
           Réserver
         </button>
@@ -97,6 +105,7 @@ export default {
         utilisateur: {},
       },
       isOpen: false,
+      erreurs:[]
     };
   },
   methods: {
@@ -124,20 +133,36 @@ export default {
       }
     },
     async reservation() {
-      const horaire = this.choixHoraire();
-      this.reservationCreer.dateReservation = horaire.dateDebut;
-      this.reservationCreer.terrain = this.terrain;
-      this.reservationCreer.utilisateur =
-        await this.enregistrementUtilisateur();
-      const reservationEnregistree = await createReservation(
-        this.reservationCreer
-      );
-      console.log("RESERVATION FAITE");
-      console.log(JSON.stringify(reservationEnregistree));
-      this.$router.push({
-        path: `/reservation/${reservationEnregistree.id}`,
-      });
-      deleteDisponibiliteById(horaire.id);
+      console.log(this.utilisateur.telephone.length);
+      this.erreurs = []
+      if (this.utilisateur.telephone && this.utilisateur.nom && this.utilisateur.prenom) {
+        const horaire = this.choixHoraire();
+        this.reservationCreer.dateReservation = horaire.dateDebut;
+        this.reservationCreer.terrain = this.terrain;
+        this.reservationCreer.utilisateur =
+          await this.enregistrementUtilisateur();
+        const reservationEnregistree = await createReservation(
+          this.reservationCreer
+        );
+        console.log("RESERVATION FAITE");
+        console.log(JSON.stringify(reservationEnregistree));
+        this.$router.push({
+          path: `/reservation/${reservationEnregistree.id}`,
+        });
+        deleteDisponibiliteById(horaire.id);
+      }
+      if (!this.utilisateur.telephone ) {
+        this.erreurs.push("Numéro de téléphone requis.");
+      }
+      if (!this.utilisateur.nom ) {
+        this.erreurs.push("Nom requis.");
+      }
+      if (!this.utilisateur.prenom ) {
+        this.erreurs.push("Prénom requis.");
+      }
+      if (this.utilisateur.telephone.length < 10 ) {
+        this.erreurs.push("Numéro de téléphone invalide.");
+      }   
     },
     openForm() {
       if (this.isOpen == true) {
@@ -151,6 +176,12 @@ export default {
       await deleteTerrain(this.$route.params.id);
       this.$router.push({ name: ACCUEIL });
     },
+    onlyNumber ($event) {
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        $event.preventDefault();
+      }
+    }
   },
   async mounted() {
     this.terrain = await getTerrainById(this.$route.params.id);
@@ -174,6 +205,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 100px;
 }
 
 .trait-separation {
@@ -189,11 +221,11 @@ export default {
 
 .form-terrain {
   width: 300px;
-  height: 300px;
   background-color: #6994c5;
   border-radius: 5px;
   margin: 0 auto;
   margin-top: 10px;
+  padding-bottom: 25px;
 }
 .formulaire {
   display: flex;
