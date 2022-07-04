@@ -88,7 +88,7 @@ export default {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  margin-top: 30%;
+  margin-top: 80px;
   border-radius: 5px;
   border: 2px solid #adff00;
 }
@@ -111,6 +111,10 @@ export default {
   background-color: #0d2f4e;
 }
 
-@media screen and (min-width: 959px) {
+@media screen and (min-width: 1024px) {
+  .confirmation-reservation {
+    width: 400px;
+    margin-top: 150px;
+}
 }
 </style>

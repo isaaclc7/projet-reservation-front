@@ -149,8 +149,8 @@ export default {
   height: 55px;
   border-color: #adff00;
   position: fixed;
-  top: 85%;
-  left: 84%;
+  top: 83%;
+  left: 81.5%;
 }
 
 .div-form-ajouter-terrain {
@@ -204,5 +204,12 @@ export default {
   top: 0;
   margin-top: 0px;
   margin-right: 0px;
+}
+
+@media screen and (min-width: 1024px) {
+  .liste__terrains {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+}
 }
 </style>

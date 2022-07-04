@@ -38,4 +38,16 @@ export default {
   color: #adff00;
   font-weight: bold;
 }
+
+@media screen and (min-width: 1024px) {
+  .carte-terrain {
+    width: 350px;
+  }
+
+  .carte-terrain__nom {
+  padding: 15px 0 15px 0;
+  font-size: 25px;
+}
+
+}
 </style>
