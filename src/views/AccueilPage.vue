@@ -22,9 +22,16 @@
         <input
           class="form-nombre-terrain"
           v-model="terrain.numero"
+          @keypress="onlyNumber"
           type="text"
           placeholder="N° terrain"
         />
+        <p v-if="erreurs.length">
+          <b>Veuillez corriger le(s) erreur(s) suivante(s) :</b>
+          <ul>
+            <li v-for="erreur in erreurs" :key="erreur.id">{{ erreur }}</li>
+          </ul>
+        </p>
         <button class="form-enregistrer-terrain" @click="creerTerrain">
           Enregistrer
         </button>
@@ -63,6 +70,7 @@ export default {
       terrain: {
         numero: "",
       },
+      erreurs: []
     };
   },
   methods: {
@@ -84,23 +92,23 @@ export default {
       this.isOpen = false;
     },
     async creerTerrain() {
-      // const terrainAlreadyExists = await getTerrainByNumero(
-      //   this.terrain.numero
-      // );
-      // console.log(JSON.stringify(terrainAlreadyExists));
-      // if (this.isEmpty(terrainAlreadyExists)) {
-      //   await createTerrain(this.terrain);
-      //   console.log("CREE");
-      //   // this.$router.go();
-      // } else {
-      //   console.log("PAS CREE");
-      // }
-      await createTerrain(this.terrain);
-      this.$router.go();
+      if (this.terrain.numero) {
+        await createTerrain(this.terrain);
+        this.$router.go();
+      } else {
+        this.erreurs.push("Veuillez renseigner un numéro de terrain")
+      }
+      
     },
     isEmpty(someObject) {
       return !Object.keys(someObject).length;
     },
+    onlyNumber ($event) {
+      let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
+      if ((keyCode < 48 || keyCode > 57) && keyCode !== 46) {
+        $event.preventDefault();
+      }
+    }
   },
   async mounted() {
     this.getTerrains();
@@ -157,7 +165,6 @@ export default {
   border: 3px solid #adff00;
   background-color: #6994c5;
   width: 300px;
-  height: 160px;
   position: fixed;
   top: 40%;
   padding: 10px;
